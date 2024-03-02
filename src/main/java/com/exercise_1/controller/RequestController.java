@@ -24,6 +24,12 @@ public class RequestController {
         return ResponseEntity.ok(requestService.findAll());
     }
 
+    @GetMapping("/by-organization")
+    public ResponseEntity<List<Request>> getRequestsByAuthenticatedUserOrganization() {
+        List<Request> requests = requestService.findRequestsByAuthenticatedUserOrganization();
+        return ResponseEntity.ok(requests);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Request> getRequestById(@PathVariable Long id) {
         return requestService.findById(id)
