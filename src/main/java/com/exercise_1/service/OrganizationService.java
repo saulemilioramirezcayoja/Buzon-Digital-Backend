@@ -18,6 +18,9 @@ public class OrganizationService {
         this.organizationRepository = organizationRepository;
     }
 
+    public boolean existsById(Long id) {
+        return organizationRepository.existsById(id);
+    }
     public List<Organization> findAll() {
         return organizationRepository.findAll();
     }
@@ -33,4 +36,5 @@ public class OrganizationService {
     public void deleteById(Long id) {
         organizationRepository.deleteById(id);
     }
+
 }

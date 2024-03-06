@@ -1,7 +1,10 @@
 package com.exercise_1.controller;
 
+import com.exercise_1.model.Organization;
 import com.exercise_1.model.Request;
+import com.exercise_1.service.OrganizationService;
 import com.exercise_1.service.RequestService;
+import com.exercise_1.util.OrganizationIdCodec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +16,12 @@ import java.util.List;
 public class RequestController {
 
     private final RequestService requestService;
+    private final OrganizationService organizationService;
 
     @Autowired
-    public RequestController(RequestService requestService) {
+    public RequestController(RequestService requestService, OrganizationService organizationService) {
         this.requestService = requestService;
+        this.organizationService = organizationService;
     }
 
     @GetMapping
@@ -37,8 +42,14 @@ public class RequestController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public ResponseEntity<Request> createRequest(@RequestBody Request request) {
+    @PostMapping("/create")
+    public ResponseEntity<Request> createRequest(@RequestParam("org") String encodedOrgId, @RequestBody Request request) {
+        Long organizationId = OrganizationIdCodec.decode(encodedOrgId);
+
+        Organization organization = organizationService.findById(organizationId)
+                .orElseThrow(() -> new RuntimeException("Organization not found for ID: " + organizationId));
+        request.setOrganization(organization);
+
         Request savedRequest = requestService.save(request);
         return ResponseEntity.ok(savedRequest);
     }

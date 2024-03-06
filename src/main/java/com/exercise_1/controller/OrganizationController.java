@@ -2,11 +2,13 @@ package com.exercise_1.controller;
 
 import com.exercise_1.model.Organization;
 import com.exercise_1.service.OrganizationService;
+import com.exercise_1.util.OrganizationIdCodec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/organizations")
@@ -29,6 +31,21 @@ public class OrganizationController {
         return organizationService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/encode-id")
+    public ResponseEntity<?> encodeOrganizationId(@RequestParam("orgId") Long orgId) {
+        Optional<Organization> organization = organizationService.findById(orgId);
+        if (!organization.isPresent()) {
+            return ResponseEntity.badRequest().body("Organization ID does not exist");
+        }
+
+        try {
+            String encodedId = OrganizationIdCodec.encode(orgId);
+            return ResponseEntity.ok(encodedId);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error encoding organization ID: " + e.getMessage());
+        }
     }
 
     @PostMapping
