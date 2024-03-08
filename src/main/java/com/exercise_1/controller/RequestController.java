@@ -65,11 +65,13 @@ public class RequestController {
                     existingRequest.setClosedDate(requestDetails.getClosedDate());
                     existingRequest.setTrackingCodeId(requestDetails.getTrackingCodeId());
                     existingRequest.setComment(requestDetails.getComment());
-                    existingRequest.setApplicantName(requestDetails.getApplicantName());
-                    existingRequest.setApplicantId(requestDetails.getApplicantId());
-                    existingRequest.setApplicantEmail(requestDetails.getApplicantEmail());
-                    existingRequest.setApplicantPhone(requestDetails.getApplicantPhone());
-                    existingRequest.setAdditionalRequirements(requestDetails.getAdditionalRequirements());
+                    existingRequest.setFirstName(requestDetails.getFirstName());
+                    existingRequest.setLastName(requestDetails.getLastName());
+                    existingRequest.setEmail(requestDetails.getEmail());
+                    existingRequest.setPhoneNumber(requestDetails.getPhoneNumber());
+                    existingRequest.setAddress(requestDetails.getAddress());
+                    existingRequest.setOrganizationName(requestDetails.getOrganizationName());
+
                     Request updatedRequest = requestService.save(existingRequest);
                     return ResponseEntity.ok(updatedRequest);
                 })

@@ -3,7 +3,6 @@ package com.exercise_1.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -40,20 +39,23 @@ public class Request {
     @Column(name = "comment")
     private String comment;
 
-    @Column(name = "applicant_name", length = 255)
-    private String applicantName;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
 
-    @Column(name = "applicant_id", length = 50)
-    private String applicantId;
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
 
-    @Column(name = "applicant_email", length = 255)
-    private String applicantEmail;
+    @Column(name = "email")
+    private String email;
 
-    @Column(name = "applicant_phone", length = 20)
-    private String applicantPhone;
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
-    @Column(name = "additional_requirements", columnDefinition = "TEXT")
-    private String additionalRequirements;
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "organization_name")
+    private String organizationName;
 
     public enum State {
         received, in_process, completed
