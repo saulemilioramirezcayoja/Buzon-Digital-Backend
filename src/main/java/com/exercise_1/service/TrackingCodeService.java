@@ -58,4 +58,8 @@ public class TrackingCodeService {
 
         return builder.toString();
     }
+
+    public Optional<TrackingCode> findByCode(String code) {
+        return trackingCodeRepository.findByCode(code);
+    }
 }

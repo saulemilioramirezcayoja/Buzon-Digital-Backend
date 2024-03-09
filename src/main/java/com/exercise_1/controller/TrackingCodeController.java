@@ -1,5 +1,6 @@
 package com.exercise_1.controller;
 
+import com.exercise_1.model.Request;
 import com.exercise_1.model.TrackingCode;
 import com.exercise_1.service.TrackingCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +61,12 @@ public class TrackingCodeController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/search/{code}")
+    public ResponseEntity<Request> getRequestByTrackingCode(@PathVariable String code) {
+        return trackingCodeService.findByCode(code)
+                .map(trackingCode -> ResponseEntity.ok(trackingCode.getRequest()))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

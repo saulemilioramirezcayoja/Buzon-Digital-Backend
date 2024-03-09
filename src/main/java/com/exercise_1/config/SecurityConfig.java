@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/requests").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/organizations/encode-id*").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/requests/create*").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/trackingCodes/search/*").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
