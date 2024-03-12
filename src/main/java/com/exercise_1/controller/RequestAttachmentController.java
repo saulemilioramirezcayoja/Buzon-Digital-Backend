@@ -2,9 +2,11 @@ package com.exercise_1.controller;
 
 import com.exercise_1.model.RequestAttachment;
 import com.exercise_1.service.RequestAttachmentService;
+import com.exercise_1.dto.FileUploadDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -61,6 +63,16 @@ public class RequestAttachmentController {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<?> uploadFiles(@RequestBody List<FileUploadDTO> fileUploadDTOList) {
+        try {
+            List<RequestAttachment> attachments = requestAttachmentService.processMultipleFileUploads(fileUploadDTOList);
+            return ResponseEntity.ok(attachments);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading files: " + e.getMessage());
         }
     }
 }
